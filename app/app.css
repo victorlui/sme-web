@@ -1,0 +1,42 @@
+@import "tailwindcss";
+@import 'react-toastify/dist/ReactToastify.css';
+
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --color-primary: #0E131F;
+  --color-gray: #59546C;
+  --color-button-color:#38405F;
+  --color-neutral-800: #081028;
+  --color-neutral-700: #0A1330;
+  --color-neutral-600: #0B1739;
+  --color-neutral-500: #7E89AC;
+  --color-neutral-400: #AEB9E1;
+  --color-neutral-300: #D1DBF9;
+  --color-neutral-200: #D9E1FA;
+  --color-neutral-200: #FFFFFF;
+  --color-secondary-color1: #0B1739;
+  --color-secondary-color4: #343B4F;
+  --color-pink: #CB3CFF;
+}
+
+:root{
+    line-height: 1.5;
+    font-weight: 400;
+    margin: 0 auto;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body { 
+   background-color: #081028;
+   color: #ffffff
+}
+
+a {
+    color: #fff
+}
