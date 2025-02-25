@@ -1,4 +1,6 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { toast } from "react-toastify";
 import { api } from "~/api/api";
 
 interface Query {
@@ -75,6 +77,19 @@ export const GETByIdStudent = async (
       );
     }
     throw new Error("Erro inesperado ao registrar aluno");
+  }
+};
+
+export const DeleteStudent = async (id: number): Promise<boolean | string> => {
+  try {
+    await api.delete(`/students/${id}`);
+    return true;
+  } catch (error) {
+    console.log("service", error);
+    if (axios.isAxiosError(error)) {
+      return error.response?.data?.error;
+    }
+    return "Erro ao deletar aluno";
   }
 };
 

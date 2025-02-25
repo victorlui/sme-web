@@ -60,9 +60,8 @@ export default function App() {
         />
 
         <Route element={<PrivateRoute />}>
-          <Route path="/" element={<HomePage />} />
           <Route path="/escolas" element={<ListSchoolsPage />} />
-          <Route path="/alunos" element={<StudentsPage />} />
+          <Route path="/" element={<StudentsPage />} />
           <Route
             path="/atendimento/:idAluno"
             element={<StudentServicePage />}

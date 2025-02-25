@@ -5,7 +5,9 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+
 import {
+  DeleteStudent,
   GETAllStudents,
   GETByIdStudent,
   POSTStudents,
@@ -33,6 +35,24 @@ export const useStudentById = (id: number) => {
       const data = await GETByIdStudent(id);
 
       return data;
+    },
+  });
+};
+
+export const useStudentDeleteMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: DeleteStudent,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["students"] });
+      toast("Aluno deletado com sucesso", {
+        type: "success",
+        theme: "colored",
+      });
+    },
+    onError: (error) => {
+      console.log("hook", error);
+      toast("Erro ao deletar aluno", { type: "error", theme: "colored" });
     },
   });
 };

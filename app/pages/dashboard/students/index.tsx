@@ -1,7 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import DatePickerInput from "~/components/DatePickerInput";
 import Filter from "~/components/Filter";
 import Input from "~/components/Input";
@@ -12,11 +15,11 @@ import Select from "~/components/Select";
 import { useSchools } from "~/hooks/useSchools";
 import {
   useStudentCreateMutation,
+  useStudentDeleteMutation,
   useStudentsQuery,
 } from "~/hooks/useStudents";
 import DefaultLayout from "~/layout/default-layout";
 import { studentSchema, StudentSchema } from "~/schemas/students-schema";
-import { StudentsRequest } from "~/service/students-service";
 
 const StudentsPage: React.FC = () => {
   const {
@@ -39,6 +42,7 @@ const StudentsPage: React.FC = () => {
     isPending: loadingCreate,
     data: success,
   } = useStudentCreateMutation();
+  const { mutate: delete_mutate } = useStudentDeleteMutation();
   const { data, isPending } = useStudentsQuery(currentPage, 20, search);
   const { data: schools, refetch } = useSchools();
   const dataStudent = watch();
@@ -73,6 +77,22 @@ const StudentsPage: React.FC = () => {
 
   const handlerService = (student: any) => {
     navigation(`/atendimento/${student.id}`);
+  };
+
+  const handleDeleteStudent = (student: any) => {
+    withReactContent(Swal)
+      .fire({
+        title: `Deseja deletar o aluno ${student.name}? Pode haver atendimentos anexado com ele  `,
+        confirmButtonColor: "red",
+        showCancelButton: true,
+        confirmButtonText: "Deletar",
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          delete_mutate(student.id);
+        }
+      });
+    return;
   };
 
   return (
@@ -168,7 +188,6 @@ const StudentsPage: React.FC = () => {
       <div className="grid grid-cols-3 my-10 gap-4">
         {data?.itens.map((student) => (
           <div
-            onClick={() => handlerService(student)}
             className="relative cursor-pointer bg-secondary-color1  rounded-md w-full py-4 px-4 flex flex-col md:flex-row items-start gap-3   "
             key={student.id}
           >
@@ -181,6 +200,20 @@ const StudentsPage: React.FC = () => {
               </h1>
               <p className="text-[13px]">RA: {student.ra}</p>
               <p className="text-[13px]">Serie: {student.serie}</p>
+
+              <button
+                className="border p-2 rounded-md mt-4 cursor-pointer hover:bg-neutral-600"
+                onClick={() => handlerService(student)}
+              >
+                Ir para o atendimento
+              </button>
+            </div>
+            <div className="mt-2 ml-3">
+              <FaTrash
+                className="cursor-pointer text-red-500"
+                size={20}
+                onClick={() => handleDeleteStudent(student)}
+              />
             </div>
           </div>
         ))}

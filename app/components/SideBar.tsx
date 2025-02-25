@@ -42,7 +42,7 @@ const Sidebar: React.FC = () => {
         <a href="/escolas" className="flex items-center gap-2 text-[20px]">
           <LuSchool /> Escolas
         </a>
-        <a href="/alunos" className="flex items-center gap-2 text-[20px]">
+        <a href="/" className="flex items-center gap-2 text-[20px]">
           <PiStudent size={25} />
           Alunos
         </a>
